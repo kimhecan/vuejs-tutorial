@@ -7,24 +7,41 @@
   <title>Document</title>
 </head>
 <body>
-  <div id="root">
-    <div>좋아요 눌렀음</div>
-    <button>like</button>
+  <div id="root" ref= "answer">
+    <div>{{first}} 곱하기 {{second}} 는?</div>
+    <form v-on:submit="onSubmitForm">
+      <input type="number" v-model="value">
+      <button type="submit">입력</button>
+    </form>
+    <div id="result">{{result}}</div>
   </div>
   
 </body>
 <script>
   const app = new Vue({
     el: '#root',
-    data:{
-      liked: false,
+    data: {
+      first: Math.ceil(Math.random() * 9),
+      second: Math.ceil(Math.random() * 9),
+      value: '',
+      result: '',
     },
     methods: {
-      onClickButton() {
-        this.liked = true;
+      onSubmitForm(e) {
+        e.preventDefault();
+        if (this.first * this.second == this.value) {
+          this.result = "정답";
+          this.first = Math.ceil(Math.random() * 9);
+          this.second = Math.ceil(Math.random() * 9);
+          this.value = ""
+          this.$refs.answer.focus();
+        } else {
+          this.result = "땡"
+          this.value = ""
+          this.$refs.answer.focus();
+        }
       }
     }
-    
   })
 </script>
 </html>
