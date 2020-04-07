@@ -8,20 +8,29 @@
 </head>
 <body>
   <div id="root">
-    <div>{{word}}</div>
-    <form v-on:submit="onSubmitForm" ref="answer">
-      <input type="text" v-model="value">
-      <button type="submit">입력!</button>
-    </form>
-    <div>{{result}}</div>
+    <wordrelay start-word="aa"></wordrelay>
+    <wordrelay start-word="bb"></wordrelay>
+    <wordrelay start-word="cc"></wordrelay>
   </div>
   <script>
-    const app = new Vue({
-      el: "#root",
-      data: {
-        word: '끝말잇기',
-        value: '',
-        result: '',
+    Vue.component('wordrelay', { // 전역 컴포넌트
+      template: `
+        <div>
+          <div>{{word}}</div>
+            <form v-on:submit="onSubmitForm" ref="answer">
+              <input type="text" v-model="value">
+              <button type="submit">입력!</button>
+            </form>
+          <div>{{result}}</div>
+        </div>
+      `,
+      props: ['startWord'],
+      data() {
+        return {
+          word: this.startWord,
+          value: '',
+          result: '',
+        }
       },
       methods: {
         onSubmitForm(e) {
@@ -37,8 +46,13 @@
             this.$refs.answer.focus();
           }
         }
-      },
+      }
     })
+  </script>
+  <script>
+    const app = new Vue({
+      el: "#root",
+    });
   </script>
 </body>
 </html>
